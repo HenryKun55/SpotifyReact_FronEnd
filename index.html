@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Spotify Web Playback SDK Quick Start Tutorial</title>
+</head>
+<body>
+  <h1>Spotify Web Playback SDK Quick Start Tutorial</h1>
+  <h2>Open your console log: <code>View > Developer > JavaScript Console</code></h2>
+
+  <script src="https://sdk.scdn.co/spotify-player.js"></script>
+  <script src="./get.js"></script>
+  <script>
+    var request = require('request'); // "Request" library
+
+    var client_id = '40f279f4d2774bd982e2f3fb49341888'; // Your client id
+    var client_secret = 'dd96d7c00f50491e92f577c26bb229ae'; // Your secret
+
+    // your application requests authorization
+    var authOptions = {
+    url: 'https://accounts.spotify.com/api/token',
+    headers: {
+        'Authorization': 'Basic ' + (new Buffer(client_id + ':' + client_secret).toString('base64'))
+    },
+    form: {
+        grant_type: 'client_credentials'
+    },
+    json: true
+    };
+
+    window.onSpotifyWebPlaybackSDKReady = () => {
+      const token = 'Bearer BQC5441JQ6knNqLoniO4AMor0bL8t9IT9akmwgm-gYbJxEAya4SI6aoN8qzI51QpBOnp1-LZ04-fgC000Wg';
+      const player = new Spotify.Player({
+        name: 'Web Playback SDK Quick Start Player',
+        getOAuthToken: cb => { cb(token); }
+      });
+
+      // Error handling
+      player.addListener('initialization_error', ({ message }) => { console.error(message); });
+      player.addListener('authentication_error', ({ message }) => { console.error(message); });
+      player.addListener('account_error', ({ message }) => { console.error(message); });
+      player.addListener('playback_error', ({ message }) => { console.error(message); });
+
+      // Playback status updates
+      player.addListener('player_state_changed', state => { console.log(state); });
+
+      // Ready
+      player.addListener('ready', ({ device_id }) => {
+        console.log('Ready with Device ID', device_id);
+      });
+
+      // Not Ready
+      player.addListener('not_ready', ({ device_id }) => {
+        console.log('Device ID has gone offline', device_id);
+      });
+
+      // Connect to the player!
+      player.connect();
+    };
+  </script>
+</body>
+</html>
