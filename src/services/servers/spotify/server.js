@@ -7,8 +7,8 @@ var token = require('../socket/require');
 
 var app = express();
 
-var client_id = '40f279f4d2774bd982e2f3fb49341888'; // Your client id
-var client_secret = 'dd96d7c00f50491e92f577c26bb229ae'; // Your secret
+var client_id = 'CLIENT_ID'; // Your client id
+var client_secret = 'CLIENT_SECRET'; // Your secret
 var redirect_uri = 'http://localhost:8888/callback/'; // Your redirect uri
 var generateRandomString = function(length) {
   var text = '';
